@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 unordered_map<int,string>h;
+int current_file[16]={1};
 int calculate_sum_bitmap(){
 	int sum=0;
 	vector<int>v;
@@ -80,11 +81,21 @@ void calculate_sum_rowid(){
 		cout<<v[i]<<" "<<count<<endl;
 	}	
 }
-
+int compute_lines(int file_index){
+	ifstream infile;
+	string line;
+	int number_of_lines;
+	infile.open("bitslice_"+to_string(file_index)+"_"+to_string(current_file[file_index-1])+".txt");
+	while (std::getline(infile, line))
+        ++number_of_lines;
+    return number_of_lines;
+}
 void append_to_bitslice(vector<unsigned int>array_amount){
 	ofstream outfile;
+	int block_size=5;
 	for(int i=1;i<=16;i++){
-		outfile.open("bitslice_"+to_string(i)+".txt",std::ios_base::app);
+		int count=compute_lines(i);
+		outfile.open("bitslice_"+to_string(i)+"_"+to_string(current_file[i-1])+".txt",std::ios_base::app);
 		for(int j=0;j<array_amount.size();j++){
 			unsigned int val=array_amount[j];
 			cout<<val<<" "<<i<<" ";
@@ -93,6 +104,12 @@ void append_to_bitslice(vector<unsigned int>array_amount){
 				val=val>>31;
 			}
 			cout<<val<<endl;
+			if(count>=block_size){
+				outfile.close();
+				current_file[i-1]++;
+				outfile.open("bitslice_"+to_string(i)+"_"+to_string(current_file[i-1])+".txt",std::ios_base::app);
+				count=0;
+			}
 			outfile<<val<<endl;
 		}
 		outfile.close();	
@@ -124,7 +141,28 @@ void create_bit_slice(){
 	}
 	append_to_bitslice(array_amount);
 }
-
+void compute_sum_bitslice(){
+	fstream data_bitmap,final_bitmap;
+	final_bitmap.open("bitmap_final_1.txt");
+	int j=0;
+	int val2,rowid,val1,count=0;
+	string final_bitvector="";
+	while(final_bitmap>>val2){
+		if(val2<0){
+			string name;
+			final_bitmap>>name;
+			final_bitmap.close();
+			final_bitmap.open(name);
+		}
+		else{
+			final_bitvector+=to_string(val2);
+		}
+	}
+	for(int i=1;i<=16;i++){
+		data_bitmap.open("bitslice_"+to_string(i)+".txt");
+				
+	}
+}
 int main()
 {
 	fstream infile;
@@ -185,5 +223,6 @@ int main()
 		outfile2.close();
 	}
 	create_bit_slice();
+//	compute_sum_bitslice();
     return 0;
 }
