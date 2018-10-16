@@ -288,7 +288,7 @@ int main(){
 	Evaluate_ROWID(BF1);
 	Evaluate_BITSLICE();
 
-
+	ofstream outfile;
 	string f_name="Experiment"+to_string(Theta)+".txt";
 	outfile.open(f_name);
 	outfile<<endl<<endl;
@@ -302,8 +302,9 @@ int main(){
 	Evaluate_NOINDEX(BF2);
 	Evaluate_BITMAP(BF2);
 	Evaluate_ROWID(BF2);
-	Evaluate_BITSLICE(BF2);
-	string f_name="Experiment"+to_string(Theta)+".txt";
+	Evaluate_BITSLICE();
+
+	f_name="Experiment"+to_string(Theta)+".txt";
 	outfile.open(f_name);
 	outfile<<endl<<endl;
 	outfile.close();
@@ -316,6 +317,10 @@ int main(){
 	Evaluate_NOINDEX(BF3);
 	Evaluate_BITMAP(BF3);
 	Evaluate_ROWID(BF3);
-	Evaluate_BITSLICE(BF3);
+	Evaluate_BITSLICE();
 	
+	f_name="Experiment"+to_string(Theta)+".txt";
+	outfile.open(f_name);
+	outfile<<endl<<endl;
+	outfile.close();
 }
