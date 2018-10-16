@@ -1,0 +1,7 @@
+1. Create the datasets and blocks using Dataset_creation.cpp
+2. After creating them do the experiments according tot the theta value
+3. In Index_Evaluation.cpp we just have to change the value of Theta for two experiments
+4. for one value of Theta all the a's or b's of experiments get completed
+5. Number of diskblocks read for each experiment is stored in the file Experiment_#Theta.txt in the following order noindex,bitmap,rowid,bitslice
+For Theta = 3000 it takes a lot of time
+For seeing whether all the files are read or not remove the comments of the couts whic are in the code

@@ -83,7 +83,7 @@ void Evaluate_BITMAP(bool BF[]){
 
 		while(1){
 			infile.open(filename);
-			cout<<filename<<endl;
+			//cout<<filename<<endl;
 			ReadDiskBlockCount++;
 			string line;
 			string value;
@@ -121,8 +121,64 @@ void Evaluate_BITMAP(bool BF[]){
 
 
 
-void Evaluate_ROWID(){
-	
+void Evaluate_ROWID(bool BF[]){
+	string filename = "Block_Number_for_RowID_1_0.txt";
+	int iterator = 0;
+	fstream infile;
+	int ReadDiskBlockCount = 0;
+	int flag = 0;
+	vector<string>hashmap;
+	hashmap.push_back("NULL");
+	for(int i=1;i<=Theta;i++){
+		string value="";
+		value = "Block_Number_for_RowID_"+to_string(i)+"_0.txt";
+		hashmap.push_back(value);
+	}
+
+	for(unsigned int i=1;i<=Theta;i++){
+		//for each theta bring the corresponding rowid blocks and check whether they are equal to 1 in BF or not
+			iterator = 0;
+			filename = hashmap[i];
+			int count = 0;
+			while(1){
+				infile.open(filename);
+				//cout<<filename<<endl;
+				ReadDiskBlockCount++;
+				string line;
+				string value;
+				
+				while(infile>>value){
+					if(value == "-1"){
+						flag = 1;
+					}
+					else if(value[0] == 'B'){
+						filename = value;
+					}	
+					else{
+						stringstream geek(value);
+						int x = 0;
+						geek >> x;
+						if(BF[x] == 1){
+							//add to the sum
+							count++;
+						}
+						else{
+
+						}
+						iterator++;
+					}
+				}
+			
+				infile.close();
+				if(flag == 1){
+					flag = 0;
+					count = 0;
+					break;
+				}
+			}
+	}
+
+	cout<<ReadDiskBlockCount<<endl;
 
 }
 
@@ -158,7 +214,7 @@ void Evaluate_BITSLICE(){
 			filename = hashmap[j];
 			while(1){
 				infile.open(filename);
-				cout<<filename<<endl;
+				//cout<<filename<<endl;
 				ReadDiskBlockCount++;
 				string line;
 				string value;
@@ -197,6 +253,11 @@ void Evaluate_BITSLICE(){
 
 	}
 cout<<ReadDiskBlockCount<<endl;
+ofstream outfile;
+string f_name="Experiment"+to_string(Theta)+".txt";
+outfile.open(f_name);
+outfile<<ReadDiskBlockCount<<endl;
+outfile.close();
 }
 
 
@@ -223,12 +284,18 @@ int main(){
 		BF1[T_ID[i]] = 1;
 	}
 	Evaluate_NOINDEX(BF1);
-	//Evaluate_BITMAP(BF1);
-	//Evaluate_ROWID(BF1);
+	Evaluate_BITMAP(BF1);
+	Evaluate_ROWID(BF1);
 	Evaluate_BITSLICE();
 
+
+	string f_name="Experiment"+to_string(Theta)+".txt";
+	outfile.open(f_name);
+	outfile<<endl<<endl;
+	outfile.close();
+
 	//Experiment 2b;
-	/*shuffle(T_ID.begin(), T_ID.end(), default_random_engine(seed));
+	shuffle(T_ID.begin(), T_ID.end(), default_random_engine(seed));
 	for(int i=0;i<10000;i++){
 		BF2[T_ID[i]] = 1;
 	}
@@ -236,6 +303,10 @@ int main(){
 	Evaluate_BITMAP(BF2);
 	Evaluate_ROWID(BF2);
 	Evaluate_BITSLICE(BF2);
+	string f_name="Experiment"+to_string(Theta)+".txt";
+	outfile.open(f_name);
+	outfile<<endl<<endl;
+	outfile.close();
 
 	//Experiment 3b
 	shuffle(T_ID.begin(), T_ID.end(), default_random_engine(seed));
@@ -246,5 +317,5 @@ int main(){
 	Evaluate_BITMAP(BF3);
 	Evaluate_ROWID(BF3);
 	Evaluate_BITSLICE(BF3);
-	*/
+	
 }
