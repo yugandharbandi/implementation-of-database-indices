@@ -59,6 +59,11 @@ void Evaluate_NOINDEX(bool BF[]){
 		}
 	}
 	cout<<ReadDiskBlockCount<<endl;	
+	ofstream outfile;
+string f_name="Experiment"+to_string(Theta)+".txt";
+outfile.open(f_name);
+outfile<<ReadDiskBlockCount<<endl;
+outfile.close();
 }
 
 
@@ -114,6 +119,11 @@ void Evaluate_BITMAP(bool BF[]){
 	}
 
 	cout<<ReadDiskBlockCount<<endl;
+	ofstream outfile;
+string f_name="Experiment"+to_string(Theta)+".txt";
+outfile.open(f_name);
+outfile<<ReadDiskBlockCount<<endl;
+outfile.close();
 }
 
 
@@ -178,7 +188,11 @@ void Evaluate_ROWID(bool BF[]){
 			}
 	}
 
-	cout<<ReadDiskBlockCount<<endl;
+	ofstream outfile;
+string f_name="Experiment"+to_string(Theta)+".txt";
+outfile.open(f_name);
+outfile<<ReadDiskBlockCount<<endl;
+outfile.close();
 
 }
 
